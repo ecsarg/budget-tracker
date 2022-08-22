@@ -1,5 +1,3 @@
-const { response } = require("express");
-
 let db;
 
 const request = indexedDB.open('budget_tracker', 1);
@@ -11,17 +9,17 @@ request.onupgradeneeded = function(event) {
 
 request.onsuccess = function(event) {
     db = event.target.result;
-    if (window.navigator.onLine) {
+    if (navigator.onLine) {
         uploadFunds();
     }
 };
 
 request.onerror = function(event) {
-    console.log(event.target.error);
+    console.log(event.target.errorCode);
 };
 
 function saveRecord(record) {
-    const transaction = db.transaction('new_funds', 'readwrite');
+    const transaction = db.transaction(['new_funds'], 'readwrite');
 
     const budgetObjectStore = transaction.objectStore('new_funds');
 
@@ -29,7 +27,7 @@ function saveRecord(record) {
 }
 
 function uploadFunds() {
-    const transaction = db.transaction('new_funds', 'readwrite');
+    const transaction = db.transaction(['new_funds'], 'readwrite');
 
     const budgetObjectStore = transaction.objectStore('new_funds');
 
