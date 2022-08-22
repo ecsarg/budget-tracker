@@ -11,17 +11,17 @@ request.onupgradeneeded = function(event) {
 
 request.onsuccess = function(event) {
     db = event.target.result;
-    if (navigator.onLine) {
+    if (window.navigator.onLine) {
         uploadFunds();
     }
 };
 
 request.onerror = function(event) {
-    console.log(event.target.errorCode);
+    console.log(event.target.error);
 };
 
 function saveRecord(record) {
-    const transaction = db.transaction(['new_funds'], 'readwrite');
+    const transaction = db.transaction('new_funds', 'readwrite');
 
     const budgetObjectStore = transaction.objectStore('new_funds');
 
@@ -29,7 +29,7 @@ function saveRecord(record) {
 }
 
 function uploadFunds() {
-    const transaction = db.transaction(['new_funds'], 'readwrite');
+    const transaction = db.transaction('new_funds', 'readwrite');
 
     const budgetObjectStore = transaction.objectStore('new_funds');
 
